@@ -18,10 +18,10 @@ This Python script allows you to send emails through a Microsoft Exchange accoun
    ```
 
 2. Set up a virtual environment and activate it:
-   \`\`\`bash
+   ```bash
    conda create --name email-env python=3.8
    conda activate email-env
-   \`\`\`
+   ```
 
 3. Install the required libraries:
    ```bash
@@ -95,58 +95,69 @@ print(email)
 
 ## Functions
 
-### `load_env_file(env_file: str) -> None`
+```python
+load_env_file(env_file: str) -> None
+```
+Loads Microsoft Graph API credentials as environment variables from a specified file (azure.env).
 
-Loads environment variables from a specified file.
-
-### `get_access_token_graph() -> str or None`
-
+```python
+get_access_token_graph() -> str or None
+```
 Gets the access token for the MS Graph application.
 
-### `get_headersURL(from_email: str = 'seattle.lab@shanwil.com') -> tuple[str, dict[str, str]]`
-
+```python
+get_headersURL(from_email: str = 'seattle.lab@shanwil.com') -> tuple[str, dict[str, str]]
+```
 Gets the headers and URL for the MS Graph application.
 
-### `get_attachments_email(attachment_paths: list[str]) -> list[dict[str, Any]]`
-
+```python
+get_attachments_email(attachment_paths: list[str]) -> list[dict[str, Any]]
+```
 Formats the attachment PDFs for the email.
 
-### `read_template_without_bom(template_path: str) -> str`
-
+```python
+read_template_without_bom(template_path: str) -> str
+```
 Reads an HTML template file, removing any BOM if present.
 
-### `fill_email_template(template_path: str, variables: dict[str, str], table: pd.DataFrame = None, links: dict[str, str] = None) -> str`
-
+```python
+fill_email_template(template_path: str, variables: dict[str, str], table: pd.DataFrame = None, links: dict[str, str] = None) -> str
+```
 Fills an email template with given variables, inserts an HTML table from a DataFrame, and adds hyperlinks.
 
-### `dataframe_to_html_with_style(df: pd.DataFrame) -> str`
-
+```python
+dataframe_to_html_with_style(df: pd.DataFrame) -> str
+```
 Converts a pandas DataFrame into an HTML table string with styling to match the template.
 
-### `send_email(toRecipients: list[str], emailBody: str = None, attachment_paths: list[str] = None, subject: str = 'Email Subject Line', ccRecipients: list[str] = None, replyTo: list[str] = None) -> None`
+```python
+send_email(toRecipients: list[str], emailBody: str = None, attachment_paths: list[str] = None, subject: str = 'Email Subject Line', ccRecipients: list[str] = None, replyTo: list[str] = None) -> None
+```
 
 Sends an email with the MS Graph application.
 
-### `find_user_email_by_name(name: str) -> str`
+```python
+find_user_email_by_name(name: str) -> str
+```
 
 Searches for a user by first and last name and retrieves their email address.
 
-### `find_user_email_by_employee_id(employee_id: str) -> str`
-
+```python
+find_user_email_by_employee_id(employee_id: str) -> str
+```
 Finds a user's email address by their employee ID using Microsoft Graph API.
 
-### `find_user_firstname_by_employee_id(employee_id: str) -> str`
-
+```python
+find_user_firstname_by_employee_id(employee_id: str) -> str
+```
 Finds a user's first name by their employee ID using Microsoft Graph API.
 
-### `pull_contact_by_employee_id(employee_id: str) -> dict[str, str]`
-
+```python
+pull_contact_by_employee_id(employee_id: str) -> dict[str, str]
+```
 Finds a user's name and email address by their employee ID using Microsoft Graph API.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 """
-
-with open("/mnt/data/README.md", "w") as f:
-    f.write(readme_content)
