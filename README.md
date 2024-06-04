@@ -1,48 +1,152 @@
-# Your Project Name
+# Send Emails with Microsoft Graph
 
-## Description
+This Python script allows you to send emails through a Microsoft Exchange account using Microsoft Graph API. It supports sending emails with attachments, filling email templates with dynamic content, and more.
 
-A brief description of your project.
+## Prerequisites
 
-## Setup
+- Python 3.x
+- `requests` library
+- `msal` library
+- `pandas` library
 
-1. **Clone the repository:**
+## Installation
 
-    ```sh
-    git clone https://github.com/your-username/your-repository.git
-    cd your-repository
-    ```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/send-emails.git
+   cd send-emails
+   ```
 
-2. **Create a virtual environment and activate it:**
+2. Set up a virtual environment and activate it:
+   \`\`\`bash
+   conda create --name email-env python=3.8
+   conda activate email-env
+   \`\`\`
 
-    Using Conda:
+3. Install the required libraries:
+   ```bash
+   pip install requests msal pandas
+   ```
 
-    ```sh
-    conda create --name your_env_name python=3.8
-    conda activate your_env_name
-    ```
+4. Create a `.env` file in the project root directory with your Microsoft Graph API credentials:
+   ```bash
+   CLIENT_ID=your-client-id
+   TENANT_ID=your-tenant-id
+   SECRET_VALUE=your-secret-value
+   FROM_EMAIL=your-from-email@example.com
+   ```
 
-
-3. **Install dependencies:**
-
-    ```sh
-    pip install -r requirements.txt
-    ```
-
-4. **Set up environment variables:**
-
-    Create a `azure.env` file in the project root directory and add your environment variables:
-
-    ```env
-    SECRET_VALUE=your_secret_value
-    CLIENT_ID=your_client_id
-    TENANT_ID=your_tenant_id
-    ```
+6. Ensure the `.env` file is included in your `.gitignore` to avoid exposing your credentials.
 
 ## Usage
 
-Instructions on how to use your project.
+### Sending an Email
+
+To send an email, use the `send_email` function. Here’s an example:
+
+```python
+from Send_Emails import send_email
+
+to_list = ['recipient@example.com']
+cc_list = ['cc@example.com']
+subject = 'Test Email'
+body = '<h1>Hello, World!</h1>'
+attachment_paths = ['path/to/attachment1.pdf', 'path/to/attachment2.pdf']
+reply_to = ['replyto@example.com']
+
+send_email(to_list, emailBody=body, attachment_paths=attachment_paths, subject=subject, ccRecipients=cc_list, replyTo=reply_to)
+```
+
+### Filling an Email Template
+
+You can fill an email template with dynamic content using the `fill_email_template` function. Here’s an example:
+
+```python
+from Send_Emails import fill_email_template, dataframe_to_html_with_style
+import pandas as pd
+
+# Variables to replace in the template
+email_vars = {'invoice_month': 'May 2024', 'due_string': 'Monday (6/3/2024)'}
+
+# Create a DataFrame and convert it to an HTML table
+data = {'Column1': [1, 2, 3], 'Column2': ['A', 'B', 'C']}
+df = pd.DataFrame(data)
+html_table = dataframe_to_html_with_style(df)
+
+# Fill the template
+template_path = 'path/to/template.html' # Save your email from Outlook as an HTML file!
+email_body = fill_email_template(template_path, email_vars, html_table)
+
+# Send the email
+send_email(['recipient@example.com'], emailBody=email_body, subject='Test Email')
+```
+
+### Finding a User by Employee ID
+
+To find a user's email address by their employee ID, use the `find_user_email_by_employee_id` function. Here’s an example:
+
+```python
+from Send_Emails import find_user_email_by_employee_id
+
+employee_id = '12345'
+email = find_user_email_by_employee_id(employee_id)
+print(email)
+```
+
+## Functions
+
+### `load_env_file(env_file: str) -> None`
+
+Loads environment variables from a specified file.
+
+### `get_access_token_graph() -> str or None`
+
+Gets the access token for the MS Graph application.
+
+### `get_headersURL(from_email: str = 'seattle.lab@shanwil.com') -> tuple[str, dict[str, str]]`
+
+Gets the headers and URL for the MS Graph application.
+
+### `get_attachments_email(attachment_paths: list[str]) -> list[dict[str, Any]]`
+
+Formats the attachment PDFs for the email.
+
+### `read_template_without_bom(template_path: str) -> str`
+
+Reads an HTML template file, removing any BOM if present.
+
+### `fill_email_template(template_path: str, variables: dict[str, str], table: pd.DataFrame = None, links: dict[str, str] = None) -> str`
+
+Fills an email template with given variables, inserts an HTML table from a DataFrame, and adds hyperlinks.
+
+### `dataframe_to_html_with_style(df: pd.DataFrame) -> str`
+
+Converts a pandas DataFrame into an HTML table string with styling to match the template.
+
+### `send_email(toRecipients: list[str], emailBody: str = None, attachment_paths: list[str] = None, subject: str = 'Email Subject Line', ccRecipients: list[str] = None, replyTo: list[str] = None) -> None`
+
+Sends an email with the MS Graph application.
+
+### `find_user_email_by_name(name: str) -> str`
+
+Searches for a user by first and last name and retrieves their email address.
+
+### `find_user_email_by_employee_id(employee_id: str) -> str`
+
+Finds a user's email address by their employee ID using Microsoft Graph API.
+
+### `find_user_firstname_by_employee_id(employee_id: str) -> str`
+
+Finds a user's first name by their employee ID using Microsoft Graph API.
+
+### `pull_contact_by_employee_id(employee_id: str) -> dict[str, str]`
+
+Finds a user's name and email address by their employee ID using Microsoft Graph API.
 
 ## License
 
-Your project's license.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+"""
+
+with open("/mnt/data/README.md", "w") as f:
+    f.write(readme_content)
