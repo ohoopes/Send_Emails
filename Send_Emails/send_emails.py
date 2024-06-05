@@ -7,24 +7,28 @@ import requests
 import pandas as pd
 
 
-## Get the sensitive information from environment variables
+# Get the sensitive information from environment variables
 def load_env_file(env_file: str) -> None:
     """
-    Loads environment variables from a specified file.  It expects the file
-    to be in the "home directory" for the user.  For example, C:\Users\oth
+    Loads environment variables from a specified file. It expects the file
+    to be in the "home directory" for the user. For example, C:\\Users\\oth
 
     :param env_file: Path to the .env file (without path).
     """
-    env_file = os.path.expanduser(env_file)  # Expand the ~ to the user's home directory
-    with open(env_file, 'r') as file:
-        for line in file:
-            if line.strip() and not line.startswith('#'):
-                key, value = line.strip().split('=', 1)
-                os.environ[key] = value
-
+    env_file_path = os.path.expanduser(f"~/{env_file}")
+    try:
+        with open(env_file_path, 'r', encoding='utf-8') as file:
+            for line in file:
+                if line.strip() and not line.startswith('#'):
+                    key, value = line.strip().split('=', 1)
+                    os.environ[key] = value
+    except FileNotFoundError:
+        print(f"Environment file {env_file_path} not found.")
+    except Exception as e:
+        print(f"An error occurred while loading environment file: {e}")
 
 # Load environment variables from the .env file located in the user's home directory
-load_env_file('~/azure.env')
+load_env_file('azure.env')
 # Note - azure.env is listed in the .gitignore file so it is not uploaded to the repository.
 # You will need to register an app via Azure.com and submit it for review to Carl / IT.
 # You will need to create azure.env via a text editor and add the following lines with no quotes:
