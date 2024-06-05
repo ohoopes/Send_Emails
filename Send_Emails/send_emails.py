@@ -28,17 +28,19 @@ load_env_file('azure.env')
 # SECRET_VALUE=your_secret_value
 # CLIENT_ID=your_client_id
 # TENANT_ID=your_tenant_id
+# FROM_EMAIL=your-from-email@example.com
 
 SECRET_VALUE = os.getenv('SECRET_VALUE')
 CLIENT_ID = os.getenv('CLIENT_ID')
 TENANT_ID = os.getenv('TENANT_ID')
+FROM_EMAIL = os.getenv('FROM_EMAIL')
 
 # Check if the environment variables are loaded correctly
 if not SECRET_VALUE or not CLIENT_ID or not TENANT_ID:
     raise ValueError("Missing required environment variables.")
 
 # This is the sender email of the application.
-FROM_EMAIL = 'seattle.lab@shanwil.com'
+# FROM_EMAIL = 'seattle.lab@shanwil.com'
 # FROM_EMAIL = 'oliver.hoopes@shanwil.com'
 
 
