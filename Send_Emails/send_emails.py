@@ -15,12 +15,7 @@ def load_env_file(env_file: str) -> None:
 
     :param env_file: Path to the .env file (without path).
     """
-    home_dir = os.path.expanduser("~")  # Get the user's home directory
-    env_path = os.path.join(home_dir, env_file)  # Construct the full path
-
-    if not os.path.exists(env_path):
-        raise FileNotFoundError(f"{env_file} not found in the home directory: {home_dir}")
-
+    env_file = os.path.expanduser(env_file)  # Expand the ~ to the user's home directory
     with open(env_file, 'r') as file:
         for line in file:
             if line.strip() and not line.startswith('#'):
@@ -29,7 +24,7 @@ def load_env_file(env_file: str) -> None:
 
 
 # Load environment variables from the .env file located in the user's home directory
-load_env_file('azure.env')
+load_env_file('~/azure.env')
 # Note - azure.env is listed in the .gitignore file so it is not uploaded to the repository.
 # You will need to register an app via Azure.com and submit it for review to Carl / IT.
 # You will need to create azure.env via a text editor and add the following lines with no quotes:
