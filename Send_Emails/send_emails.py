@@ -10,10 +10,17 @@ import pandas as pd
 ## Get the sensitive information from environment variables
 def load_env_file(env_file: str) -> None:
     """
-    Loads environment variables from a specified file.
+    Loads environment variables from a specified file.  It expects the file
+    to be in the "home directory" for the user.  For example, C:\Users\oth
 
-    :param env_file: Path to the .env file.
+    :param env_file: Path to the .env file (without path).
     """
+    home_dir = os.path.expanduser("~")  # Get the user's home directory
+    env_path = os.path.join(home_dir, env_file)  # Construct the full path
+
+    if not os.path.exists(env_path):
+        raise FileNotFoundError(f"{env_file} not found in the home directory: {home_dir}")
+
     with open(env_file, 'r') as file:
         for line in file:
             if line.strip() and not line.startswith('#'):
@@ -21,10 +28,11 @@ def load_env_file(env_file: str) -> None:
                 os.environ[key] = value
 
 
-# Load environment variables from the .env file
+# Load environment variables from the .env file located in the user's home directory
 load_env_file('azure.env')
-# Note - this file should be in the same directory as the script.  It is listed in the .gitignore file so it 
-# is not uploaded to the repository.  You will need to create this file and add the following lines with no quotes:
+# Note - azure.env is listed in the .gitignore file so it is not uploaded to the repository.
+# You will need to register an app via Azure.com and submit it for review to Carl / IT.
+# You will need to create azure.env via a text editor and add the following lines with no quotes:
 # SECRET_VALUE=your_secret_value
 # CLIENT_ID=your_client_id
 # TENANT_ID=your_tenant_id
