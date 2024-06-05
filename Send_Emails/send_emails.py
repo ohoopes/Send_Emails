@@ -7,7 +7,7 @@ import requests
 import pandas as pd
 
 
-# Get the sensitive information from environment variables
+## Get the sensitive information from environment variables
 def load_env_file(env_file: str) -> None:
     """
     Loads environment variables from a specified file.
