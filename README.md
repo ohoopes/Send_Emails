@@ -11,38 +11,30 @@ This Python script allows you to send emails through a Microsoft Exchange accoun
 
 ## Installation
 
-1. Clone the repository:
+1. Install the package:
    ```bash
-   git clone https://github.com/your-username/send-emails.git
-   cd send-emails
+   pip install git+https://github.com/ohoopes/Send_Emails.git
    ```
 
-2. Set up a virtual environment and activate it:
-   ```bash
-   conda create --name email-env python=3.8
-   conda activate email-env
-   ```
-
-3. Install the required libraries:
-   ```bash
-   pip install requests msal pandas
-   ```
-
-4. Create a `.env` file in the project root directory with your Microsoft Graph API credentials:
+2. **Environment Variables**:
+   - Create a `.env` file in the project root directory with your Microsoft Graph API credentials in your home directory (e.g., `C:\Users\<YourUsername>\azure.env`)
+   - Add the following lines to the `azure.env` file with your actual values:
    ```bash
    CLIENT_ID=your-client-id
    TENANT_ID=your-tenant-id
    SECRET_VALUE=your-secret-value
    FROM_EMAIL=your-from-email@example.com
    ```
+3. **Usage**:
+   - In your Python script or Jupyter notebook, you can import and use the functions as follows:
 
-6. Ensure the `.env` file is included in your `.gitignore` to avoid exposing your credentials.
+     ```python
+     from Send_Emails.send_emails import send_email, fill_email_template, dataframe_to_html_with_style, find_user_email_by_employee_id, pull_contact_by_employee_id
+     ```
 
-## Usage
+## Example
 
-### Sending an Email
-
-To send an email, use the `send_email` function. Here’s an example:
+Here's an example of how to use the `send_email` function:
 
 ```python
 from Send_Emails import send_email
@@ -59,7 +51,9 @@ send_email(to_list, emailBody=body, attachment_paths=attachment_paths, subject=s
 
 ### Filling an Email Template
 
-You can fill an email template with dynamic content using the `fill_email_template` function. Here’s an example:
+You can fill an email template with dynamic content using the `fill_email_template` function. To do this, you can create an email in Outlook and include variables to replace inside double hash marks within the email body (e.g., `##param_name##`).  You can include a table too if you include `##table_placeholder##` in your email body.
+
+Here’s an example:
 
 ```python
 from Send_Emails import fill_email_template, dataframe_to_html_with_style
